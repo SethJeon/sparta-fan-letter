@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { LetterList } from "./LetterList";
+import { Form } from "./Form";
 
 function App() {
+  const options = ["karina", "winter", "ningning", "giselle"];
+  const [letters, setLetters] = useState([]);
+  const [selectedMember, setSelectedMember] = useState(options[0]);
+
+  function handleAddItems(letter) {
+    setLetters((letters) => [...letters, letter]);
+  }
+
+  function handleSelectedMember(index) {
+    const selectedMember = options[index];
+    setSelectedMember(selectedMember);
+  }
+
+  function handleDeleteLetters(id) {
+    setLetters((letters) => letters.filter((letter) => letter.id !== id));
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Form
+        onAddItems={handleAddItems}
+        letters={letters}
+        options={options}
+        selectedMember={selectedMember}
+      />
+      <LetterList
+        letters={letters}
+        options={options}
+        selectedMember={selectedMember}
+        onSelectedMember={handleSelectedMember}
+        onDeleteLetters={handleDeleteLetters}
+      />
     </div>
   );
 }
